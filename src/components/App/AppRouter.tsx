@@ -1,17 +1,20 @@
 import React, {FC} from 'react';
+import {useSelector} from 'react-redux';
 import {Switch, Route, Redirect} from 'react-router-dom';
-import {privateRoutes, publicRoutes, RouteNames} from '../router';
+import {useTypedSelector} from '../../hooks/useTypedSelector';
+import {privateRoutes, publicRoutes, RouteNames} from '../../router';
 
 const AppRouter: FC = () => {
-    const auth = false
+    const {isAuth} = useTypedSelector(state => state.authReducer)
+
     return (
-        auth
+        isAuth
             ? <Switch>
                 {privateRoutes.map(route =>
-                   <Route
-                       {...route}
-                       key={route.path}
-                   />
+                    <Route
+                        {...route}
+                        key={route.path}
+                    />
                 )}
                 <Redirect to={RouteNames.CALENDAR}/>
             </Switch>

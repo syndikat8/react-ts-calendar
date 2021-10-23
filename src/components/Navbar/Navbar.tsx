@@ -2,6 +2,7 @@ import React, {FC} from 'react';
 import {Layout, Menu, Row} from 'antd';
 import {useHistory} from 'react-router-dom';
 import {RouteNames} from '../../router';
+import {useTypedSelector} from '../../hooks/useTypedSelector';
 
 const Navbar: FC = () => {
     const router = useHistory()
@@ -9,22 +10,23 @@ const Navbar: FC = () => {
     const goToLogin = () => {
         router.push((RouteNames.LOGIN))
     }
-    const auth = true
+    const {isAuth} = useTypedSelector(state => state.authReducer)
+
     return (
         <Layout.Header>
             <Row justify="end">
                 <>
-                    {   auth &&
-                        <div style={{color: 'white'}}>
-                            Boss
-                        </div>
+                    {isAuth &&
+                    <div style={{color: 'white'}}>
+                        Boss
+                    </div>
                     }
                     <Menu theme="dark" mode="horizontal" selectable={false}>
                         <Menu.Item
                             key={1}
                             onClick={goToLogin}
                         >
-                            {auth ? 'Logout' : 'Login'}
+                            {isAuth ? 'Logout' : 'Login'}
                         </Menu.Item>
                     </Menu>
                 </>
